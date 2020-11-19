@@ -2,17 +2,14 @@
 #include "cards.h"
 #include "constants.h"
 #include "console.h"
+#include "Player.h"
+#include "Deck.h"
 
 #include <vector>
 #include <iostream>
 
 namespace Game
 {
-  bool isAce(Cards::Card &card)
-  {
-    return Cards::CardRank::Ace == card.rank;
-  }
-
   bool playerWantsHit()
   {
     char answer{};
@@ -27,112 +24,76 @@ namespace Game
     return answer == 'h';
   }
 
-  int calcScore(std::vector<Cards::Card> &cards)
+  void printPlayerCards(const Player &player)
   {
-    int result{0};
-    for (const auto &card : cards)
-      result += Cards::getCardValue(card);
-
-    return result;
-  }
-
-  void printPlayerCards(Player &player)
-  {
-    for (auto &card : player.deck)
+    for (auto &card : player.m_deck)
     {
-      std::cout << ' ';
-      Cards::printCard(card);
+      std::cout << ' ' << card;
     }
   }
 
   void printGameState(Player &dealer, Player &player)
   {
     std::cout << "DEALER\t";
-    std::cout << "Score: " << dealer.score << "\t";
+    std::cout << "Score: " << dealer.m_score << "\t";
     std::cout << "Deck: ";
     printPlayerCards(dealer);
     std::cout << '\n';
 
     std::cout << "YOU\t";
-    std::cout << "Score: " << player.score << "\t";
+    std::cout << "Score: " << player.m_score << "\t";
     std::cout << "Deck: ";
     printPlayerCards(player);
     std::cout << "\n\n";
   }
 
-  Cards::Card nextCard(GameDeck &gameDeck)
-  {
-    return gameDeck.deck.at(gameDeck.cursor++);
-  }
+  
 
-  void hit(Player &player, GameDeck &deck)
+  void turn(Player &actor, Player &dealer, Player &player, Deck &deck)
   {
-    Cards::Card card = nextCard(deck);
-    player.score += Cards::getCardValue(card);
-    player.aces += isAce(card);
-    player.deck.push_back(card);
-  }
-
-  void checkAces(Player &player)
-  {
-    while (player.aces && player.score > Constants::MAX_SCORE)
-    {
-      --player.aces;
-      player.score -= Constants::ACE_RANK_1_SHIFT;
-    }
-  }
-
-  Player createPlayer()
-  {
-    return {0, 0, {}};
-  }
-
-  void turn(Player &actor, Player &dealer, Player &player, GameDeck &deck)
-  {
-    hit(actor, deck);
-    checkAces(actor);
+    actor.drawCard(deck);
+    actor.checkAces();
     printGameState(dealer, player);
   }
 
   bool dealerWantsHit(Player &dealer)
   {
-    return dealer.score < Constants::MIN_DEALER_SCORE;
+    return dealer.m_score < Constants::MIN_DEALER_SCORE;
   }
 
   BlackjackResult determineTheWinner(const Player &dealer, const Player &player)
   {
-    if (player.score == dealer.score)
+    if (player.m_score == dealer.m_score)
       return BlackjackResult::tie;
-    if (player.score > dealer.score)
+    if (player.m_score > dealer.m_score)
       return BlackjackResult::player_win;
 
     return BlackjackResult::dealer_win;
   }
 
-  BlackjackResult playBlackjack(Cards::deck_type &deck)
+  BlackjackResult playBlackjack(Deck &deck)
   {
-    GameDeck gameDeck{deck, 0};
-    Player dealer{createPlayer()};
-    hit(dealer, gameDeck);
+    Player dealer;
+    dealer.drawCard(deck);
 
-    Player player{createPlayer()};
-    hit(player, gameDeck);
+    Player player;
+    player.drawCard(deck);
 
     do
     {
-      turn(player, dealer, player, gameDeck);
-      if (player.score == Constants::MAX_SCORE)
+      turn(player, dealer, player, deck);
+      if (player.m_score == Constants::MAX_SCORE)
         return BlackjackResult::player_win;
-      if (player.score > Constants::MAX_SCORE)
+      if (player.m_score > Constants::MAX_SCORE)
         return BlackjackResult::dealer_win;
     } while (playerWantsHit());
 
     do
     {
-      turn(dealer, dealer, player, gameDeck);
-      if (dealer.score == Constants::MAX_SCORE)
+      turn(dealer, dealer, player, deck);
+      if (dealer.m_score == Constants::MAX_SCORE)
         return BlackjackResult::dealer_win;
-      if (dealer.score > Constants::MAX_SCORE)
+      if (dealer.m_score > Constants::MAX_SCORE)
         return BlackjackResult::player_win;
     } while (dealerWantsHit(dealer));
 

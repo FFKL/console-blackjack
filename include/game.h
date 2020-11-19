@@ -1,27 +1,13 @@
-#include "cards.h"
-
-#include <vector>
-
 #ifndef GAME_H
 #define GAME_H
 
+#include "cards.h"
+#include "Deck.h"
+
+#include <vector>
+
 namespace Game
 {
-  using player_deck_type = std::vector<Cards::Card>;
-
-  struct Player
-  {
-    int aces{};
-    int score{};
-    player_deck_type deck{};
-  };
-
-  struct GameDeck
-  {
-    Cards::deck_type deck{};
-    Cards::index_type cursor{};
-  };
-
   enum class BlackjackResult
   {
     player_win,
@@ -29,7 +15,7 @@ namespace Game
     tie
   };
 
-  BlackjackResult playBlackjack(Cards::deck_type &deck);
+  BlackjackResult playBlackjack(Deck &deck);
 } // namespace Game
 
 #endif

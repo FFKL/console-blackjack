@@ -1,7 +1,7 @@
-#include <array>
-
 #ifndef CARDS_DECK_H
 #define CARDS_DECK_H
+
+#include <array>
 
 namespace Cards
 {
@@ -33,20 +33,6 @@ namespace Cards
 
     Max
   };
-
-  struct Card
-  {
-    CardRank rank{};
-    CardSuit suit{};
-  };
-
-  using deck_type = std::array<Card, 52>;
-  using index_type = deck_type::size_type;
-
-  deck_type createDeck();
-  void shuffleDeck(deck_type &deck);
-  void printCard(const Card &card);
-  int getCardValue(const Card &card);
 } // namespace Cards
 
 #endif

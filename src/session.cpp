@@ -2,6 +2,7 @@
 #include "session.h"
 #include "console.h"
 #include "cards.h"
+#include "Deck.h"
 
 #include <iostream>
 
@@ -67,8 +68,9 @@ namespace Session
     Session session{0, 0, 0};
     do
     {
-      auto deck = Cards::createDeck();
-      Cards::shuffleDeck(deck);
+      Deck deck;
+      deck.shuffle();
+      
       Game::BlackjackResult result = Game::playBlackjack(deck);
       printResult(result);
       updateSessionResult(session, result);

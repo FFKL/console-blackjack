@@ -1,5 +1,7 @@
 #include "constants.h"
 #include "cards.h"
+#include "Card.h"
+#include "Deck.h"
 
 #include <iostream>
 #include <array>
@@ -55,65 +57,11 @@ namespace Cards
     }
   }
 
-  deck_type createDeck()
+  void printDeck(const Deck &deck)
   {
-    deck_type deck{};
-
-    auto maxSuits{static_cast<int>(CardSuit::Max)};
-    auto maxRanks{static_cast<int>(CardRank::Max)};
-
-    index_type card{0};
-    for (int suit{0}; suit < maxSuits; ++suit)
-    {
-      for (int rank{0}; rank < maxRanks; ++rank)
-      {
-        deck[card].rank = static_cast<CardRank>(rank);
-        deck[card].suit = static_cast<CardSuit>(suit);
-        ++card;
-      }
-    }
-
-    return deck;
-  }
-
-  void printCard(const Card &card)
-  {
-    std::cout << pickRankCode(card.rank) << pickSuitCode(card.suit);
-  }
-
-  void printDeck(const deck_type &deck)
-  {
-    for (const auto &card : deck)
-    {
-      printCard(card);
-      std::cout << ' ';
-    }
+    for (const auto &card : deck.m_deck)
+      std::cout << card << ' ';
 
     std::cout << '\n';
-  }
-
-  void shuffleDeck(deck_type &deck)
-  {
-    std::shuffle(deck.begin(), deck.end(), Random::mersenne);
-  }
-
-  int getCardValue(const Card &card)
-  {
-    if (card.rank <= CardRank::Rank10)
-    {
-      return static_cast<int>(card.rank) + Constants::CARD_RANK_SHIFT;
-    }
-
-    switch (card.rank)
-    {
-    case CardRank::Jack:
-    case CardRank::Queen:
-    case CardRank::King:
-      return 10;
-    case CardRank::Ace:
-      return 11;
-    default:
-      return 0;
-    }
   }
 } // namespace Cards
