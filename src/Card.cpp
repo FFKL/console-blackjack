@@ -1,8 +1,50 @@
 #include "Card.h"
+#include "constants.h"
 #include "cards.h"
 
 #include <iostream>
 #include <cassert>
+
+char pickRankCode(const Cards::CardRank &rank)
+{
+  if (rank >= Cards::CardRank::Rank2 && rank <= Cards::CardRank::Rank9)
+  {
+    return static_cast<int>(rank) + Constants::ZERO_ASCII_CODE + Constants::CARD_RANK_SHIFT;
+  }
+
+  switch (rank)
+  {
+  case Cards::CardRank::Rank10:
+    return 'T';
+  case Cards::CardRank::Jack:
+    return 'J';
+  case Cards::CardRank::Queen:
+    return 'Q';
+  case Cards::CardRank::King:
+    return 'K';
+  case Cards::CardRank::Ace:
+    return 'A';
+  default:
+    return '?';
+  }
+}
+
+char pickSuitCode(const Cards::CardSuit &suit)
+{
+  switch (suit)
+  {
+  case Cards::CardSuit::Club:
+    return 'C';
+  case Cards::CardSuit::Diamond:
+    return 'D';
+  case Cards::CardSuit::Heart:
+    return 'H';
+  case Cards::CardSuit::Spade:
+    return 'S';
+  default:
+    return '?';
+  }
+}
 
 Card::Card() = default;
 
@@ -12,51 +54,7 @@ Card::Card(Cards::CardRank rank, Cards::CardSuit suit) : m_rank{rank}, m_suit{su
 
 std::ostream &operator<<(std::ostream &out, const Card &card)
 {
-  switch (card.m_rank)
-  {
-  case Cards::CardRank::Rank2:
-    return out << '2';
-  case Cards::CardRank::Rank3:
-    return out << '3';
-  case Cards::CardRank::Rank4:
-    return out << '4';
-  case Cards::CardRank::Rank5:
-    return out << '5';
-  case Cards::CardRank::Rank6:
-    return out << '6';
-  case Cards::CardRank::Rank7:
-    return out << '7';
-  case Cards::CardRank::Rank8:
-    return out << '8';
-  case Cards::CardRank::Rank9:
-    return out << '9';
-  case Cards::CardRank::Rank10:
-    return out << 'T';
-  case Cards::CardRank::Jack:
-    return out << 'J';
-  case Cards::CardRank::Queen:
-    return out << 'Q';
-  case Cards::CardRank::King:
-    return out << 'K';
-  case Cards::CardRank::Ace:
-    return out << 'A';
-  default:
-    return out << '?';
-  }
-
-  switch (card.m_suit)
-  {
-  case Cards::CardSuit::Club:
-    return out << 'C';
-  case Cards::CardSuit::Diamond:
-    return out << 'D';
-  case Cards::CardSuit::Heart:
-    return out << 'H';
-  case Cards::CardSuit::Spade:
-    return out << 'S';
-  default:
-    return out << '?';
-  }
+  return out << pickRankCode(card.m_rank) << pickSuitCode(card.m_suit);
 }
 
 int Card::value() const

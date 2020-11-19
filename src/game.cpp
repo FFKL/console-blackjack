@@ -35,11 +35,9 @@ namespace Game
     std::cout << "YOU\t";
     std::cout << "Score: " << player.score() << "\t";
     std::cout << "Deck: ";
-    printDeck(dealer);
+    printDeck(player);
     std::cout << "\n\n";
   }
-
-  
 
   void turn(Player &actor, Player &dealer, Player &player, Deck &deck)
   {

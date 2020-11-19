@@ -1,7 +1,8 @@
-#include "session.h"
+#include "Session.h"
 
 int main()
 {
-  Session::play();
+  Session session;
+  session.play();
   return 0;
 }

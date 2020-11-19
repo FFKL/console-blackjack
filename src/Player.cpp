@@ -34,5 +34,5 @@ void Player::checkAces()
 void printDeck(const Player &player)
 {
   for (auto &card : player.m_deck)
-    std::cout << ' ' << card;
+    std::cout << card << ' ';
 }
