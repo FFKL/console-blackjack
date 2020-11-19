@@ -1,22 +1,23 @@
-#include "game.h"
+#include "Game.h"
 #include "console.h"
 #include "cards.h"
 #include "Session.h"
 #include "Deck.h"
+#include "Player.h"
 
 #include <iostream>
 
-void Session::printResult(const Game::BlackjackResult &result)
+void Session::printResult(const Game::Result &result)
 {
   switch (result)
   {
-  case Game::BlackjackResult::player_win:
+  case Game::Result::player_win:
     std::cout << Console::green("You win!");
     break;
-  case Game::BlackjackResult::dealer_win:
+  case Game::Result::dealer_win:
     std::cout << Console::red("You lose!");
     break;
-  case Game::BlackjackResult::tie:
+  case Game::Result::tie:
     std::cout << "Tie!";
     break;
   }
@@ -38,17 +39,17 @@ bool Session::playNextGame()
   return answer == 'y';
 }
 
-void Session::updateSessionResult(const Game::BlackjackResult &result)
+void Session::updateSessionResult(const Game::Result &result)
 {
   switch (result)
   {
-  case Game::BlackjackResult::player_win:
+  case Game::Result::player_win:
     ++m_win;
     break;
-  case Game::BlackjackResult::dealer_win:
+  case Game::Result::dealer_win:
     ++m_lose;
     break;
-  case Game::BlackjackResult::tie:
+  case Game::Result::tie:
     ++m_tie;
     break;
   }
@@ -61,7 +62,11 @@ void Session::play()
     Deck deck;
     deck.shuffle();
 
-    Game::BlackjackResult result = Game::playBlackjack(deck);
+    Player player;
+    Player dealer;
+    Game game{player, dealer, deck};
+
+    Game::Result result = game.play();
     printResult(result);
     updateSessionResult(result);
     std::cout << Console::green("Win: " + std::to_string(m_win) + ". ");
