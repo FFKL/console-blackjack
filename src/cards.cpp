@@ -56,12 +56,4 @@ namespace Cards
       return '?';
     }
   }
-
-  void printDeck(const Deck &deck)
-  {
-    for (const auto &card : deck.m_deck)
-      std::cout << card << ' ';
-
-    std::cout << '\n';
-  }
 } // namespace Cards

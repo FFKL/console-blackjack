@@ -24,26 +24,18 @@ namespace Game
     return answer == 'h';
   }
 
-  void printPlayerCards(const Player &player)
-  {
-    for (auto &card : player.m_deck)
-    {
-      std::cout << ' ' << card;
-    }
-  }
-
   void printGameState(Player &dealer, Player &player)
   {
     std::cout << "DEALER\t";
-    std::cout << "Score: " << dealer.m_score << "\t";
+    std::cout << "Score: " << dealer.score() << "\t";
     std::cout << "Deck: ";
-    printPlayerCards(dealer);
+    printDeck(dealer);
     std::cout << '\n';
 
     std::cout << "YOU\t";
-    std::cout << "Score: " << player.m_score << "\t";
+    std::cout << "Score: " << player.score() << "\t";
     std::cout << "Deck: ";
-    printPlayerCards(player);
+    printDeck(dealer);
     std::cout << "\n\n";
   }
 
@@ -58,14 +50,14 @@ namespace Game
 
   bool dealerWantsHit(Player &dealer)
   {
-    return dealer.m_score < Constants::MIN_DEALER_SCORE;
+    return dealer.score() < Constants::MIN_DEALER_SCORE;
   }
 
   BlackjackResult determineTheWinner(const Player &dealer, const Player &player)
   {
-    if (player.m_score == dealer.m_score)
+    if (player.score() == dealer.score())
       return BlackjackResult::tie;
-    if (player.m_score > dealer.m_score)
+    if (player.score() > dealer.score())
       return BlackjackResult::player_win;
 
     return BlackjackResult::dealer_win;
@@ -82,18 +74,18 @@ namespace Game
     do
     {
       turn(player, dealer, player, deck);
-      if (player.m_score == Constants::MAX_SCORE)
+      if (player.score() == Constants::MAX_SCORE)
         return BlackjackResult::player_win;
-      if (player.m_score > Constants::MAX_SCORE)
+      if (player.score() > Constants::MAX_SCORE)
         return BlackjackResult::dealer_win;
     } while (playerWantsHit());
 
     do
     {
       turn(dealer, dealer, player, deck);
-      if (dealer.m_score == Constants::MAX_SCORE)
+      if (dealer.score() == Constants::MAX_SCORE)
         return BlackjackResult::dealer_win;
-      if (dealer.m_score > Constants::MAX_SCORE)
+      if (dealer.score() > Constants::MAX_SCORE)
         return BlackjackResult::player_win;
     } while (dealerWantsHit(dealer));
 

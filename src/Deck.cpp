@@ -10,41 +10,42 @@
 #include <algorithm>
 
 Deck::Deck()
+{
+  index_type card{0};
+
+  auto suits{static_cast<index_type>(Cards::CardSuit::Max)};
+  auto ranks{static_cast<index_type>(Cards::CardRank::Max)};
+
+  for (index_type suit{0}; suit < suits; ++suit)
   {
-    index_type card{0};
-
-    auto suits{static_cast<index_type>(Cards::CardSuit::Max)};
-    auto ranks{static_cast<index_type>(Cards::CardRank::Max)};
-
-    for (index_type suit{0}; suit < suits; ++suit)
+    for (index_type rank{0}; rank < ranks; ++rank)
     {
-      for (index_type rank{0}; rank < ranks; ++rank)
-      {
-        m_deck[card] = {static_cast<Cards::CardRank>(rank), static_cast<Cards::CardSuit>(suit)};
-        ++card;
-      }
+      m_deck[card] = {static_cast<Cards::CardRank>(rank), static_cast<Cards::CardSuit>(suit)};
+      ++card;
     }
   }
+}
 
-  void Deck::print() const
-  {
-    for (const auto &card : m_deck)
-      std::cout << card << ' ';
+void Deck::shuffle()
+{
+  static std::mt19937 mt{static_cast<std::mt19937::result_type>(std::time(nullptr))};
 
-    std::cout << '\n';
-  }
+  std::shuffle(m_deck.begin(), m_deck.end(), mt);
+  m_cursor = 0;
+}
 
-  void Deck::shuffle()
-  {
-    static std::mt19937 mt{static_cast<std::mt19937::result_type>(std::time(nullptr))};
+const Card &Deck::dealCard()
+{
+  assert(m_cursor < m_deck.size());
 
-    std::shuffle(m_deck.begin(), m_deck.end(), mt);
-    m_cursor = 0;
-  }
+  return m_deck[m_cursor++];
+}
 
-  const Card &Deck::dealCard()
-  {
-    assert(m_cursor < m_deck.size());
+std::ostream &operator<<(std::ostream &out, const Deck &deck)
+{
 
-    return m_deck[m_cursor++];
-  }
+  for (const auto &card : deck.m_deck)
+    out << card << ' ';
+
+  return out << '\n';
+}

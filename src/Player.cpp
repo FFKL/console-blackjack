@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "Deck.h"
 
+#include <iostream>
+
 bool Player::isBust() const
 {
   return m_score > Constants::MAX_SCORE;
@@ -27,4 +29,10 @@ void Player::checkAces()
     --m_aces;
     m_score -= Constants::ACE_RANK_1_SHIFT;
   }
+}
+
+void printDeck(const Player &player)
+{
+  for (auto &card : player.m_deck)
+    std::cout << ' ' << card;
 }

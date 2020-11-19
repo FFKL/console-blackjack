@@ -11,7 +11,7 @@ class Player
 public:
   using player_deck_type = std::vector<Card>;
 
-public: // TODO: make it private
+private:
   int m_aces{0};
   int m_score{0};
   player_deck_type m_deck{};
@@ -21,6 +21,8 @@ public:
   int score() const;
   bool isBust() const;
   void checkAces();
+
+  friend void printDeck(const Player& player);
 };
 
 #endif
