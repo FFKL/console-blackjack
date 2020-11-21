@@ -12,10 +12,10 @@ void Session::printResult(const Game::Result &result)
   switch (result)
   {
   case Game::Result::player_win:
-    std::cout << Console::green("You win!");
+    std::cout << Console::win("You win!");
     break;
   case Game::Result::dealer_win:
-    std::cout << Console::red("You lose!");
+    std::cout << Console::loose("You lose!");
     break;
   case Game::Result::tie:
     std::cout << "Tie!";
@@ -30,7 +30,7 @@ bool Session::playNextGame()
   char answer{};
   do
   {
-    std::cout << Console::cyan("Do you want to play the next game?(y/n) ");
+    std::cout << Console::ask("Do you want to play the next game?(y/n) ");
     std::cin >> answer;
     Console::preventInvalidInput();
   } while (answer != 'y' && answer != 'n');
@@ -69,8 +69,8 @@ void Session::play()
     Game::Result result = game.play();
     printResult(result);
     updateSessionResult(result);
-    std::cout << Console::green("Win: " + std::to_string(m_win) + ". ");
-    std::cout << Console::red("Lose: " + std::to_string(m_lose) + ". ");
+    std::cout << Console::win("Win: " + std::to_string(m_win) + ". ");
+    std::cout << Console::loose("Lose: " + std::to_string(m_lose) + ". ");
     std::cout << "Tie: " << m_tie << '\n';
   } while (playNextGame());
 }

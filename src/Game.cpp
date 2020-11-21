@@ -16,7 +16,7 @@ bool Game::playerWantsHit()
   char answer{};
   do
   {
-    std::cout << Console::cyan("Hit or stand? (h/s): ");
+    std::cout << Console::ask("Hit or stand? (h/s): ");
     std::cin >> answer;
     Console::preventInvalidInput();
   } while (answer != 'h' && answer != 's');

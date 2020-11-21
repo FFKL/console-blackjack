@@ -1,19 +1,20 @@
-#include <string>
-
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
+#include <string>
+
 namespace Console
 {
-  enum class Options
+  enum class Option
   {
     SuppressColor = 1 << 0,
     UnicodeCards = 1 << 1,
   };
   void preventInvalidInput();
-  std::string green(std::string);
-  std::string red(std::string);
-  std::string cyan(std::string);
+  void setOptions(unsigned char flags);
+  std::string win(std::string);
+  std::string loose(std::string);
+  std::string ask(std::string);
 } // namespace Console
 
 #endif

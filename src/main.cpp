@@ -15,13 +15,13 @@ unsigned char getConsoleOptions(int argc, char *argv[])
     auto arg{argv[i]};
     if (!strcmp(arg, "--suppress-color"))
     {
-      options |= static_cast<char>(Console::Options::SuppressColor);
+      options |= static_cast<char>(Console::Option::SuppressColor);
       continue;
     }
 
     if (!strcmp(arg, "--unicode-cards"))
     {
-      options |= static_cast<char>(Console::Options::UnicodeCards);
+      options |= static_cast<char>(Console::Option::UnicodeCards);
       continue;
     }
 
@@ -35,7 +35,7 @@ unsigned char getConsoleOptions(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
   auto options{getConsoleOptions(argc, argv)};
-  std::cout << static_cast<int>(options) << '\n';
+  Console::setOptions(options);
   Session session;
   session.play();
   return 0;

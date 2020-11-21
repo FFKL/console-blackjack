@@ -2,9 +2,37 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 
 namespace Console
 {
+  unsigned char options{0};
+
+  enum class Color
+  {
+    No = 0,
+    Red = 31,
+    Green = 32,
+    Cyan = 36,
+  };
+
+  unsigned char operator&(unsigned char options, Option option)
+  {
+    return options & static_cast<unsigned char>(option);
+  }
+
+  std::string paintString(Color color, std::string input)
+  {
+    if (options & Option::SuppressColor)
+    {
+      return input;
+    }
+    std::stringstream ss;
+    ss << "\033[" << static_cast<int>(color) << "m" << input << "\033[0m";
+    
+    return ss.str();
+  }
+
   void preventInvalidInput()
   {
     if (std::cin.fail())
@@ -13,19 +41,24 @@ namespace Console
     }
     std::cin.ignore(32767, '\n');
   }
-  
-  std::string green(std::string str)
+
+  void setOptions(unsigned char flags)
   {
-    return "\x1B[32m" + str + "\033[0m";
+    options |= flags;
   }
 
-  std::string red(std::string str)
+  std::string win(std::string str)
   {
-    return "\x1B[31m" + str + "\033[0m";
+    return paintString(Color::Green, str);
   }
 
-  std::string cyan(std::string str)
+  std::string loose(std::string str)
   {
-    return "\x1B[36m" + str + "\033[0m";
+    return paintString(Color::Red, str);
+  }
+
+  std::string ask(std::string str)
+  {
+    return paintString(Color::Cyan, str);
   }
 } // namespace Console
