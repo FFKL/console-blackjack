@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <cstring>
-#include <assert.h>
 
 unsigned char getConsoleOptions(int argc, char *argv[])
 {

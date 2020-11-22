@@ -1,5 +1,7 @@
 #include "console.h"
+#include "cards.h"
 
+#include <cassert>
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -12,12 +14,12 @@ namespace Console
       {"🃒", "🃓", "🃔", "🃕", "🃖", "🃗", "🃘", "🃙", "🃚", "🃛", "🃝", "🃞", "🃑"},
       {"🃂", "🃃", "🃄", "🃅", "🃆", "🃇", "🃈", "🃉", "🃊", "🃋", "🃍", "🃎", "🃁"},
       {"🂲", "🂳", "🂴", "🂵", "🂶", "🂷", "🂸", "🂹", "🂺", "🂻", "🂽", "🂾", "🂱"},
-      {"🂢", "🂣", "🂤", "🂥", "🂦", "🂧", "🂨", "🂩", "🂪", "🂫", "🂭", "🂮", "🂡"},
-  };
+      {"🂢", "🂣", "🂤", "🂥", "🂦", "🂧", "🂨", "🂩", "🂪", "🂫", "🂭", "🂮", "🂡"}};
 
   enum class Color
   {
     No = 0,
+    Black = 30,
     Red = 31,
     Green = 32,
     Cyan = 36,
@@ -69,11 +71,30 @@ namespace Console
     return paintString(Color::Cyan, str);
   }
 
+  Color pickCardColor(const Card &card)
+  {
+    switch (card.suit())
+    {
+    case Cards::CardSuit::Club:
+    case Cards::CardSuit::Spade:
+      return Color::Black;
+
+    case Cards::CardSuit::Diamond:
+    case Cards::CardSuit::Heart:
+      return Color::Red;
+    default:
+      assert(false && "should never happen");
+    }
+  }
+
   std::string card(const Card &card)
   {
     if (options & Option::UnicodeCards)
     {
-      return cardIcons[static_cast<int>(card.suit())][static_cast<int>(card.rank())];
+      const std::string icon{
+          cardIcons[static_cast<int>(card.suit())]
+                   [static_cast<int>(card.rank())]};
+      return paintString(pickCardColor(card), icon);
     }
     std::stringstream ss;
     ss << card;
