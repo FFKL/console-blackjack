@@ -1,5 +1,4 @@
 #include "console.h"
-#include "cards.h"
 #include "Card.h"
 #include "Deck.h"
 
@@ -14,14 +13,14 @@ Deck::Deck()
 {
   index_type card{0};
 
-  auto suits{static_cast<index_type>(Cards::CardSuit::Max)};
-  auto ranks{static_cast<index_type>(Cards::CardRank::Max)};
+  auto suits{static_cast<index_type>(Card::Suit::Max)};
+  auto ranks{static_cast<index_type>(Card::Rank::Max)};
 
   for (index_type suit{0}; suit < suits; ++suit)
   {
     for (index_type rank{0}; rank < ranks; ++rank)
     {
-      m_deck[card] = {static_cast<Cards::CardRank>(rank), static_cast<Cards::CardSuit>(suit)};
+      m_deck[card] = {static_cast<Card::Rank>(rank), static_cast<Card::Suit>(suit)};
       ++card;
     }
   }

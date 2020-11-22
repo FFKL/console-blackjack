@@ -1,7 +1,6 @@
 #ifndef DECK_H
 #define DECK_H
 
-#include "cards.h"
 #include "Card.h"
 
 #include <array>

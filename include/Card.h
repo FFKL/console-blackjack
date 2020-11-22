@@ -1,24 +1,52 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include "cards.h"
-
 #include <iostream>
 
 class Card
 {
+public:
+  enum class Suit
+  {
+    Club,
+    Diamond,
+    Heart,
+    Spade,
+
+    Max
+  };
+
+  enum class Rank
+  {
+    Rank2,
+    Rank3,
+    Rank4,
+    Rank5,
+    Rank6,
+    Rank7,
+    Rank8,
+    Rank9,
+    Rank10,
+    Jack,
+    Queen,
+    King,
+    Ace,
+
+    Max
+  };
+
 private:
-  Cards::CardRank m_rank{};
-  Cards::CardSuit m_suit{};
+  Rank m_rank{};
+  Suit m_suit{};
 
 public:
   Card();
-  Card(Cards::CardRank rank, Cards::CardSuit suit);
+  Card(Rank rank, Suit suit);
 
   void print() const;
   int value() const;
-  Cards::CardRank rank() const;
-  Cards::CardSuit suit() const;
+  Rank rank() const;
+  Suit suit() const;
   bool isAce() const;
 
   friend std::ostream &operator<<(std::ostream &out, const Card &card);

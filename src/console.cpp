@@ -1,5 +1,4 @@
 #include "console.h"
-#include "cards.h"
 
 #include <cassert>
 #include <string>
@@ -75,12 +74,12 @@ namespace Console
   {
     switch (card.suit())
     {
-    case Cards::CardSuit::Club:
-    case Cards::CardSuit::Spade:
+    case Card::Suit::Club:
+    case Card::Suit::Spade:
       return Color::Black;
 
-    case Cards::CardSuit::Diamond:
-    case Cards::CardSuit::Heart:
+    case Card::Suit::Diamond:
+    case Card::Suit::Heart:
       return Color::Red;
     default:
       assert(false && "should never happen");

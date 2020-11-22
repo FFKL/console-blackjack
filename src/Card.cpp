@@ -1,46 +1,45 @@
 #include "Card.h"
 #include "constants.h"
-#include "cards.h"
 
 #include <sstream>
 #include <iostream>
 #include <cassert>
 
-char pickRankCode(const Cards::CardRank &rank)
+char pickRankCode(const Card::Rank &rank)
 {
-  if (rank >= Cards::CardRank::Rank2 && rank <= Cards::CardRank::Rank9)
+  if (rank >= Card::Rank::Rank2 && rank <= Card::Rank::Rank9)
   {
     return static_cast<int>(rank) + Constants::ZERO_ASCII_CODE + Constants::CARD_RANK_SHIFT;
   }
 
   switch (rank)
   {
-  case Cards::CardRank::Rank10:
+  case Card::Rank::Rank10:
     return 'T';
-  case Cards::CardRank::Jack:
+  case Card::Rank::Jack:
     return 'J';
-  case Cards::CardRank::Queen:
+  case Card::Rank::Queen:
     return 'Q';
-  case Cards::CardRank::King:
+  case Card::Rank::King:
     return 'K';
-  case Cards::CardRank::Ace:
+  case Card::Rank::Ace:
     return 'A';
   default:
     return '?';
   }
 }
 
-char pickSuitCode(const Cards::CardSuit &suit)
+char pickSuitCode(const Card::Suit &suit)
 {
   switch (suit)
   {
-  case Cards::CardSuit::Club:
+  case Card::Suit::Club:
     return 'C';
-  case Cards::CardSuit::Diamond:
+  case Card::Suit::Diamond:
     return 'D';
-  case Cards::CardSuit::Heart:
+  case Card::Suit::Heart:
     return 'H';
-  case Cards::CardSuit::Spade:
+  case Card::Suit::Spade:
     return 'S';
   default:
     return '?';
@@ -49,7 +48,7 @@ char pickSuitCode(const Cards::CardSuit &suit)
 
 Card::Card() = default;
 
-Card::Card(Cards::CardRank rank, Cards::CardSuit suit) : m_rank{rank}, m_suit{suit}
+Card::Card(Card::Rank rank, Card::Suit suit) : m_rank{rank}, m_suit{suit}
 {
 }
 
@@ -60,18 +59,18 @@ std::ostream &operator<<(std::ostream &out, const Card &card)
 
 int Card::value() const
 {
-  if (m_rank <= Cards::CardRank::Rank10)
+  if (m_rank <= Card::Rank::Rank10)
   {
     return (static_cast<int>(m_rank) + 2);
   }
 
   switch (m_rank)
   {
-  case Cards::CardRank::Jack:
-  case Cards::CardRank::Queen:
-  case Cards::CardRank::King:
+  case Card::Rank::Jack:
+  case Card::Rank::Queen:
+  case Card::Rank::King:
     return 10;
-  case Cards::CardRank::Ace:
+  case Card::Rank::Ace:
     return 11;
   default:
     assert(false && "should never happen");
@@ -80,15 +79,15 @@ int Card::value() const
 
 bool Card::isAce() const
 {
-  return Cards::CardRank::Ace == m_rank;
+  return Card::Rank::Ace == m_rank;
 }
 
-Cards::CardRank Card::rank() const
+Card::Rank Card::rank() const
 {
   return m_rank;
 }
 
-Cards::CardSuit Card::suit() const
+Card::Suit Card::suit() const
 {
   return m_suit;
 }

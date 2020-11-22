@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "console.h"
-#include "cards.h"
 #include "Session.h"
 #include "Deck.h"
 #include "Player.h"
