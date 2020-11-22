@@ -7,7 +7,7 @@
 
 bool Player::isBust() const
 {
-  return m_score > Constants::MAX_SCORE;
+  return m_score > Constants::MaxScore;
 }
 
 void Player::drawCard(Deck &deck)
@@ -25,10 +25,10 @@ int Player::score() const
 
 void Player::checkAces()
 {
-  while (m_aces && m_score > Constants::MAX_SCORE)
+  while (m_aces && m_score > Constants::MaxScore)
   {
     --m_aces;
-    m_score -= Constants::ACE_RANK_1_SHIFT;
+    m_score -= Constants::AceRank1Shift;
   }
 }
 

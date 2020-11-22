@@ -9,7 +9,7 @@ char pickRankCode(const Card::Rank &rank)
 {
   if (rank >= Card::Rank::Rank2 && rank <= Card::Rank::Rank9)
   {
-    return static_cast<int>(rank) + Constants::ZERO_ASCII_CODE + Constants::CARD_RANK_SHIFT;
+    return static_cast<int>(rank) + Constants::ZeroAsciiCode + Constants::CardRankShift;
   }
 
   switch (rank)

@@ -48,7 +48,7 @@ void Game::turn(Player &actor)
 
 bool Game::dealerWantsHit()
 {
-  return m_dealer.score() < Constants::MIN_DEALER_SCORE;
+  return m_dealer.score() < Constants::MinDealerScore;
 }
 
 Game::Result Game::determineTheWinner()
@@ -69,18 +69,18 @@ Game::Result Game::play()
   do
   {
     turn(m_player);
-    if (m_player.score() == Constants::MAX_SCORE)
+    if (m_player.score() == Constants::MaxScore)
       return Game::Result::player_win;
-    if (m_player.score() > Constants::MAX_SCORE)
+    if (m_player.score() > Constants::MaxScore)
       return Game::Result::dealer_win;
   } while (playerWantsHit());
 
   do
   {
     turn(m_dealer);
-    if (m_dealer.score() == Constants::MAX_SCORE)
+    if (m_dealer.score() == Constants::MaxScore)
       return Game::Result::dealer_win;
-    if (m_dealer.score() > Constants::MAX_SCORE)
+    if (m_dealer.score() > Constants::MaxScore)
       return Game::Result::player_win;
   } while (dealerWantsHit());
 
