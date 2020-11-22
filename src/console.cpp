@@ -8,11 +8,12 @@ namespace Console
 {
   unsigned char options{0};
 
-  std::string cardIcons[4][14]{
-      {"🂱", "🂲", "🂳", "🂴", "🂵", "🂶", "🂷", "🂸", "🂹", "🂺", "🂻", "🂼", "🂽", "🂾"},
-      {"🂡", "🂢", "🂣", "🂤", "🂥", "🂦", "🂧", "🂨", "🂩", "🂪", "🂫", "🂬", "🂭", "🂮"},
-      {"🃁", "🃂", "🃃", "🃄", "🃅", "🃆", "🃇", "🃈", "🃉", "🃊", "🃋", "🃌", "🃍", "🃎"},
-      {"🃑", "🃒", "🃓", "🃔", "🃕", "🃖", "🃗", "🃘", "🃙", "🃚", "🃛", "🃜", "🃝", "🃞"}};
+  std::string cardIcons[4][13]{
+      {"🃒", "🃓", "🃔", "🃕", "🃖", "🃗", "🃘", "🃙", "🃚", "🃛", "🃝", "🃞", "🃑"},
+      {"🃂", "🃃", "🃄", "🃅", "🃆", "🃇", "🃈", "🃉", "🃊", "🃋", "🃍", "🃎", "🃁"},
+      {"🂲", "🂳", "🂴", "🂵", "🂶", "🂷", "🂸", "🂹", "🂺", "🂻", "🂽", "🂾", "🂱"},
+      {"🂢", "🂣", "🂤", "🂥", "🂦", "🂧", "🂨", "🂩", "🂪", "🂫", "🂭", "🂮", "🂡"},
+  };
 
   enum class Color
   {
@@ -27,7 +28,7 @@ namespace Console
     return options & static_cast<unsigned char>(option);
   }
 
-  std::string paintString(Color color, std::string input)
+  std::string paintString(const Color color, const std::string &input)
   {
     if (options & Option::SuppressColor)
     {
@@ -53,18 +54,29 @@ namespace Console
     options |= flags;
   }
 
-  std::string win(std::string str)
+  std::string win(const std::string &str)
   {
     return paintString(Color::Green, str);
   }
 
-  std::string loose(std::string str)
+  std::string loose(const std::string &str)
   {
     return paintString(Color::Red, str);
   }
 
-  std::string ask(std::string str)
+  std::string ask(const std::string &str)
   {
     return paintString(Color::Cyan, str);
+  }
+
+  std::string card(const Card &card)
+  {
+    if (options & Option::UnicodeCards)
+    {
+      return cardIcons[static_cast<int>(card.suit())][static_cast<int>(card.rank())];
+    }
+    std::stringstream ss;
+    ss << card;
+    return ss.str();
   }
 } // namespace Console

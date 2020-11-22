@@ -1,6 +1,8 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
+#include "Card.h"
+
 #include <string>
 
 namespace Console
@@ -12,9 +14,10 @@ namespace Console
   };
   void preventInvalidInput();
   void setOptions(unsigned char flags);
-  std::string win(std::string);
-  std::string loose(std::string);
-  std::string ask(std::string);
+  std::string win(const std::string &);
+  std::string loose(const std::string &);
+  std::string ask(const std::string &);
+  std::string card(const Card &);
 } // namespace Console
 
 #endif

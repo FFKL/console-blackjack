@@ -1,4 +1,5 @@
 #include "constants.h"
+#include "console.h"
 #include "Player.h"
 #include "Deck.h"
 
@@ -34,5 +35,5 @@ void Player::checkAces()
 void printDeck(const Player &player)
 {
   for (auto &card : player.m_deck)
-    std::cout << card << ' ';
+    std::cout << Console::card(card) << ' ';
 }

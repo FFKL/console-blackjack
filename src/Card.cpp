@@ -2,6 +2,7 @@
 #include "constants.h"
 #include "cards.h"
 
+#include <sstream>
 #include <iostream>
 #include <cassert>
 
@@ -80,4 +81,14 @@ int Card::value() const
 bool Card::isAce() const
 {
   return Cards::CardRank::Ace == m_rank;
+}
+
+Cards::CardRank Card::rank() const
+{
+  return m_rank;
+}
+
+Cards::CardSuit Card::suit() const
+{
+  return m_suit;
 }

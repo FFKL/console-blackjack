@@ -1,3 +1,4 @@
+#include "console.h"
 #include "cards.h"
 #include "Card.h"
 #include "Deck.h"
@@ -45,7 +46,7 @@ std::ostream &operator<<(std::ostream &out, const Deck &deck)
 {
 
   for (const auto &card : deck.m_deck)
-    out << card << ' ';
+    out << Console::card(card) << ' ';
 
   return out << '\n';
 }

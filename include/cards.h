@@ -1,8 +1,6 @@
 #ifndef CARDS_DECK_H
 #define CARDS_DECK_H
 
-#include <array>
-
 namespace Cards
 {
   enum class CardSuit
