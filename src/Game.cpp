@@ -20,31 +20,16 @@ bool Game::playerWantsHit()
     std::cin >> answer;
     Console::preventInvalidInput();
   } while (answer != 'h' && answer != 's');
-  std::cout << '\n';
+  m_printer.newLine();
 
   return answer == 'h';
-}
-
-void Game::printGameState()
-{
-  std::cout << "DEALER\t";
-  std::cout << "Score: " << m_dealer.score() << "\t";
-  std::cout << "Deck: ";
-  m_printer.player(m_dealer);
-  std::cout << '\n';
-
-  std::cout << "YOU\t";
-  std::cout << "Score: " << m_player.score() << "\t";
-  std::cout << "Deck: ";
-  m_printer.player(m_player);
-  std::cout << "\n\n";
 }
 
 void Game::turn(Player &actor)
 {
   actor.drawCard(m_deck);
   actor.checkAces();
-  printGameState();
+  m_printer.game(m_player, m_dealer);
 }
 
 bool Game::dealerWantsHit()

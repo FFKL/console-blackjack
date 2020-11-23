@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-Session::Session() : m_printer{Printer{std::cout}} {}
+Session::Session(Printer &printer) : m_printer{printer} {}
 
 void Session::printResult(const Game::Result &result)
 {
@@ -19,23 +19,23 @@ void Session::printResult(const Game::Result &result)
     m_printer.lose("You lose!");
     break;
   case Game::Result::tie:
-    std::cout << "Tie!";
+    m_printer.tie("Tie!");
     break;
   }
-  std::cout << '\n';
+  m_printer << '\n';
 }
 
 bool Session::playNextGame()
 {
-  std::cout << '\n';
+  m_printer.newLine();
   char answer{};
   do
   {
-    std::cout << Console::ask("Do you want to play the next game?(y/n) ");
+    m_printer.ask("Do you want to play the next game?(y/n) ");
     std::cin >> answer;
     Console::preventInvalidInput();
   } while (answer != 'y' && answer != 'n');
-  std::cout << '\n';
+  m_printer.newLine();
 
   return answer == 'y';
 }
@@ -72,6 +72,6 @@ void Session::play()
     updateSessionResult(result);
     m_printer.win("Win: " + std::to_string(m_win) + ". ");
     m_printer.lose("Lose: " + std::to_string(m_lose) + ". ");
-    std::cout << "Tie: " << m_tie << '\n';
+    m_printer.tie("Tie: " + std::to_string(m_tie) + '\n');
   } while (playNextGame());
 }

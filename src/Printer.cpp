@@ -1,37 +1,116 @@
 #include "Printer.h"
-#include "console.h"
+#include "Player.h"
 
 #include <iostream>
+#include <cassert>
 
-Printer::Printer(std::ostream &out) : m_out{out} {}
-
-std::ostream &Printer::deck(const Deck &deck)
+unsigned char operator&(unsigned char options, Printer::Option option)
 {
-  for (const auto &card : deck.getCards())
-    m_out << Console::card(card) << ' ';
-
-  return m_out;
+  return options & static_cast<unsigned char>(option);
 }
 
-std::ostream &Printer::player(const Player &player)
+Printer &operator<<(Printer &printer, const std::string &string)
+{
+  printer.m_out << string;
+  return printer;
+}
+
+Printer &operator<<(Printer &printer, const char ch)
+{
+  printer.m_out << ch;
+  return printer;
+}
+
+Printer::Printer(std::ostream &out, unsigned char options) : m_out{out}, m_options{options} {}
+
+Printer &Printer::player(const Player &player)
 {
   for (auto &card : player.deck())
-    m_out << Console::card(card) << ' ';
+    this->card(card) << ' ';
 
-  return m_out;
+  return *this;
 }
 
-std::ostream &Printer::win(const std::string &text)
+Printer &Printer::paintString(const Color color, const std::string &input)
 {
-  return m_out << Console::win(text);
+  if (m_options & Option::SuppressColor)
+    m_out << input;
+  else
+    m_out << "\033[" << static_cast<int>(color) << "m" << input << "\033[0m";
+
+  return *this;
 }
 
-std::ostream &Printer::lose(const std::string &text)
+Printer &Printer::win(const std::string &text)
 {
-  return m_out << Console::lose(text);
+  return paintString(Color::Green, text);
 }
 
-std::ostream &Printer::ask(const std::string &text)
+Printer &Printer::lose(const std::string &text)
 {
-  return m_out << Console::ask(text);
+  return paintString(Color::Red, text);
+}
+
+Printer &Printer::tie(const std::string &text)
+{
+  m_out << text;
+  return *this;
+}
+
+Printer &Printer::ask(const std::string &text)
+{
+  return paintString(Color::Cyan, text);
+}
+
+Printer &Printer::newLine()
+{
+  m_out << '\n';
+  return *this;
+}
+
+Printer &Printer::game(const Player &player, const Player &dealer)
+{
+  std::cout << "DEALER\t";
+  std::cout << "Score: " << dealer.score() << "\t";
+  std::cout << "Deck: ";
+  this->player(dealer);
+  std::cout << '\n';
+
+  std::cout << "YOU\t";
+  std::cout << "Score: " << player.score() << "\t";
+  std::cout << "Deck: ";
+  this->player(player);
+  std::cout << "\n\n";
+
+  return *this;
+}
+
+Printer::Color Printer::pickCardColor(const Card &card)
+{
+  switch (card.suit())
+  {
+  case Card::Suit::Club:
+  case Card::Suit::Spade:
+    return Color::Black;
+
+  case Card::Suit::Diamond:
+  case Card::Suit::Heart:
+    return Color::Red;
+  default:
+    assert(false && "should never happen");
+  }
+}
+
+Printer &Printer::card(const Card &card)
+{
+  if (m_options & Option::UnicodeCards)
+  {
+    const std::string icon{
+        m_cardIcons[static_cast<int>(card.suit())]
+                   [static_cast<int>(card.rank())]};
+    return paintString(pickCardColor(card), icon);
+  }
+
+  m_out << card;
+  return *this;
 }

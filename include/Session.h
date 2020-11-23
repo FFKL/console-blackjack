@@ -17,7 +17,7 @@ private:
   void updateSessionResult(const Game::Result &result);
 
 public:
-  Session();
+  Session(Printer &m_printer);
 
   void play();
 };

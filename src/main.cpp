@@ -1,12 +1,12 @@
 #include "Session.h"
-#include "console.h"
+#include "Printer.h"
 
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <cstring>
 
-unsigned char getConsoleOptions(int argc, char *argv[])
+unsigned char getPrinterOptions(int argc, char *argv[])
 {
   unsigned char options{0};
   for (int i{1}; i < argc; ++i)
@@ -14,13 +14,13 @@ unsigned char getConsoleOptions(int argc, char *argv[])
     auto arg{argv[i]};
     if (!strcmp(arg, "--suppress-color"))
     {
-      options |= static_cast<char>(Console::Option::SuppressColor);
+      options |= static_cast<char>(Printer::Option::SuppressColor);
       continue;
     }
 
     if (!strcmp(arg, "--unicode-cards"))
     {
-      options |= static_cast<char>(Console::Option::UnicodeCards);
+      options |= static_cast<char>(Printer::Option::UnicodeCards);
       continue;
     }
 
@@ -33,9 +33,8 @@ unsigned char getConsoleOptions(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-  auto options{getConsoleOptions(argc, argv)};
-  Console::setOptions(options);
-  Session session;
+  Printer printer{std::cout, getPrinterOptions(argc, argv)};
+  Session session{printer};
   session.play();
   return 0;
 }

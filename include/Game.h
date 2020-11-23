@@ -25,7 +25,6 @@ private:
 
   bool playerWantsHit();
   bool dealerWantsHit();
-  void printGameState();
   void turn(Player &actor);
   Result determineTheWinner();
 
