@@ -3,19 +3,20 @@
 #include "console.h"
 #include "Player.h"
 #include "Deck.h"
+#include "Printer.h"
 
 #include <vector>
 #include <iostream>
 
-Game::Game(const Player &player, const Player &dealer, const Deck &deck)
-    : m_player{player}, m_dealer{dealer}, m_deck{deck} {}
+Game::Game(const Player &player, const Player &dealer, const Deck &deck, const Printer &printer)
+    : m_player{player}, m_dealer{dealer}, m_deck{deck}, m_printer{printer} {}
 
 bool Game::playerWantsHit()
 {
   char answer{};
   do
   {
-    std::cout << Console::ask("Hit or stand? (h/s): ");
+    m_printer.ask("Hit or stand? (h/s): ");
     std::cin >> answer;
     Console::preventInvalidInput();
   } while (answer != 'h' && answer != 's');
@@ -29,13 +30,13 @@ void Game::printGameState()
   std::cout << "DEALER\t";
   std::cout << "Score: " << m_dealer.score() << "\t";
   std::cout << "Deck: ";
-  printDeck(m_dealer);
+  m_printer.player(m_dealer);
   std::cout << '\n';
 
   std::cout << "YOU\t";
   std::cout << "Score: " << m_player.score() << "\t";
   std::cout << "Deck: ";
-  printDeck(m_player);
+  m_printer.player(m_player);
   std::cout << "\n\n";
 }
 

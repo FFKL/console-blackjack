@@ -43,7 +43,6 @@ public:
   Card();
   Card(Rank rank, Suit suit);
 
-  void print() const;
   int value() const;
   Rank rank() const;
   Suit suit() const;

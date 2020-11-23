@@ -20,8 +20,7 @@ public:
 
   void shuffle();
   const Card &dealCard();
-
-  friend std::ostream &operator<<(std::ostream &out, const Deck &deck);
+  const deck_type &getCards() const;
 };
 
 #endif

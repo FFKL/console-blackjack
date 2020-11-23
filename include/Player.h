@@ -21,8 +21,7 @@ public:
   int score() const;
   bool isBust() const;
   void checkAces();
-
-  friend void printDeck(const Player& player);
+  const player_deck_type &deck() const;
 };
 
 #endif

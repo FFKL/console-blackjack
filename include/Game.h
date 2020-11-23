@@ -3,6 +3,7 @@
 
 #include "Deck.h"
 #include "Player.h"
+#include "Printer.h"
 
 #include <vector>
 
@@ -20,6 +21,7 @@ private:
   Player m_player;
   Player m_dealer;
   Deck m_deck;
+  Printer m_printer;
 
   bool playerWantsHit();
   bool dealerWantsHit();
@@ -28,7 +30,7 @@ private:
   Result determineTheWinner();
 
 public:
-  Game(const Player &player, const Player &dealer, const Deck &deck);
+  Game(const Player &player, const Player &dealer, const Deck &deck, const Printer &printer);
 
   Result play();
 };

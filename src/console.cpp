@@ -60,7 +60,7 @@ namespace Console
     return paintString(Color::Green, str);
   }
 
-  std::string loose(const std::string &str)
+  std::string lose(const std::string &str)
   {
     return paintString(Color::Red, str);
   }

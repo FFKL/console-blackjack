@@ -6,15 +6,17 @@
 
 #include <iostream>
 
+Session::Session() : m_printer{Printer{std::cout}} {}
+
 void Session::printResult(const Game::Result &result)
 {
   switch (result)
   {
   case Game::Result::player_win:
-    std::cout << Console::win("You win!");
+    m_printer.win("You win!");
     break;
   case Game::Result::dealer_win:
-    std::cout << Console::loose("You lose!");
+    m_printer.lose("You lose!");
     break;
   case Game::Result::tie:
     std::cout << "Tie!";
@@ -63,13 +65,13 @@ void Session::play()
 
     Player player;
     Player dealer;
-    Game game{player, dealer, deck};
+    Game game{player, dealer, deck, m_printer};
 
     Game::Result result = game.play();
     printResult(result);
     updateSessionResult(result);
-    std::cout << Console::win("Win: " + std::to_string(m_win) + ". ");
-    std::cout << Console::loose("Lose: " + std::to_string(m_lose) + ". ");
+    m_printer.win("Win: " + std::to_string(m_win) + ". ");
+    m_printer.lose("Lose: " + std::to_string(m_lose) + ". ");
     std::cout << "Tie: " << m_tie << '\n';
   } while (playNextGame());
 }

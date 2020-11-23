@@ -15,7 +15,7 @@ namespace Console
   void preventInvalidInput();
   void setOptions(unsigned char flags);
   std::string win(const std::string &);
-  std::string loose(const std::string &);
+  std::string lose(const std::string &);
   std::string ask(const std::string &);
   std::string card(const Card &);
 } // namespace Console

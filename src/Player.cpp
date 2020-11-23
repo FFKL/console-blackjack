@@ -32,8 +32,7 @@ void Player::checkAces()
   }
 }
 
-void printDeck(const Player &player)
+const Player::player_deck_type &Player::deck() const
 {
-  for (auto &card : player.m_deck)
-    std::cout << Console::card(card) << ' ';
+  return m_deck;
 }

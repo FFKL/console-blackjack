@@ -41,11 +41,7 @@ const Card &Deck::dealCard()
   return m_deck[m_cursor++];
 }
 
-std::ostream &operator<<(std::ostream &out, const Deck &deck)
+const Deck::deck_type &Deck::getCards() const
 {
-
-  for (const auto &card : deck.m_deck)
-    out << Console::card(card) << ' ';
-
-  return out << '\n';
+  return m_deck;
 }
